@@ -44,7 +44,7 @@ export async function setSplatScene(name, view) {
     view.loading = true;
     view.lastClick = new Date();
 
-    const startRadius = 0.3
+    const startRadius = 20.0;
 
     //const cameraData = new SPLAT.CameraData();
     //cameraData.fx = 0.9 * startRadius * view.canvas.offsetWidth
@@ -52,6 +52,9 @@ export async function setSplatScene(name, view) {
 
     //const camera = new SPLAT.Camera(cameraData);
     const camera = new SPLAT.Camera();
+    // Flip the camera's up vector to invert the view
+    // camera.up.set(0, -1, 0);
+    
     const renderer = new SPLAT.WebGLRenderer(view.canvas);
     const scene = new SPLAT.Scene();
 
@@ -60,8 +63,30 @@ export async function setSplatScene(name, view) {
 
     await SPLAT.Loader.LoadAsync(name, scene, (progress) => (view.progressIndicator.value = progress * 100));
 
+    console.log('Scene object:', scene);
+    console.log('Scene transform:', scene.transform);
+    if (scene.transform) {
+        console.log('Scene transform matrix:', scene.transform.matrix);
+        // 
+        scene.transform.scale = new Float32Array([1, -1, 1]);
+    }
+
     view.progressDialog.close();
-    var controls = new OrbitControls(camera, view.canvas, 0.0, -Math.PI / 4, startRadius, false);
+    // var controls = new OrbitControls(camera, view.canvas, 0.0, -Math.PI / 4, startRadius, false);
+    // 
+    var controls = new OrbitControls(
+        camera, 
+        view.canvas, 
+        0.0,  // 恢复原始水平角度
+        Math.PI / 4,  // 恢复原始垂直角度
+        startRadius,
+        false
+    );
+    // 通过设置初始角度为Math.PI（180度）来实现翻转
+    // Set the camera's position
+    // camera.position.set(0, -startRadius, 0);
+    // camera.lookAt(0, 0, 0);
+
     //controls.minAngle = -Math.PI / 3;
     //controls.maxAngle = Math.PI / 3; 
     //controls.minZoom = 0.1;
@@ -70,6 +95,8 @@ export async function setSplatScene(name, view) {
     controls.panSpeed = 0.2;
     controls.orbitSpeed = 1.75;
     controls.maxPanDistance = 0.05;
+
+
 
     const newAnimation = view.runningAnimation == null;
 

@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Interactive Gaussian Splat 3D Viewer</title>
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
+
     <script type="module">
         import { createSplatView, setSplatScene, setupCarousel } from "./js/splats.js"
         setupCarousel(createSplatView("splat-picker"), document.querySelector("#splat-carousel"));
@@ -18,25 +18,33 @@
 <body style="padding: 5%;">
     <div class="container text-center">
         <h2>Interactive Gaussian Splat 3D Viewer</h2>
-        
+
         <p>
             Gaussian Splats are an efficient representation for rendering complex 3D scenes.
             Each splat is an oriented 3D ellipsoid defined by a Gaussian distribution.
-            Splats are blended together to approximate the surface and appearance of 3D objects. 
+            Splats are blended together to approximate the surface and appearance of 3D objects.
             This allows realistic rendering of intricate shapes with fine details.
         </p>
-        
-        <div class="row col-md-8 offset-md-2 rounded card" style="background-color: #d0d5ec;">
+
+        <div class="row col-md-8 offset-md-2">
             <div class="text-center" id="splat-picker">
                 <div id="progress-container">
                     <dialog open id="progress-dialog">
                         <label for="progress-indicator">Loading model...</label>
                         <progress max="100" id="progress-indicator"></progress>
                     </dialog>
+                    <!-- <dialog open id="scene-caption">
+                        <label for="scene-caption">Loading model...</label>
+                        <progress max="100" id="progress-indicator"></progress>
+                    </dialog> -->
                 </div>
 
                 <canvas id="splat-canvas" class="w-100 rounded"
                         style="max-width:440px; aspect-ratio: 1; cursor: grab;"></canvas>
+
+                <div class="scene-caption" id="scene-caption">
+                    Scene caption
+                </div>
             </div>
 
             <div class="splat-carousel position-relative" id="splat-carousel" role="group">
@@ -52,16 +60,16 @@
                     <button class="splat-carousel-button left">&#8249;</button>
                     <button class="splat-carousel-button right">&#8250;</button>
                 </div>
-            </div>        
+            </div>
         </div>
-        
+
         <p>
-            The advantage of Gaussian Splats is that they enable real-time rendering of complex 3D scenes 
+            The advantage of Gaussian Splats is that they enable real-time rendering of complex 3D scenes
             with a compact representation. Realistic shapes and appearances can be achieved with a relatively
-            small number of splats compared to triangle meshes or voxel grids. This efficiency makes  
+            small number of splats compared to triangle meshes or voxel grids. This efficiency makes
             Gaussian Splats well-suited for interactive 3D viewing in web browsers and on mobile devices.
         </p>
-        
+
     </div>
 </body>
 </html>

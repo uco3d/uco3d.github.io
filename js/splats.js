@@ -9,19 +9,19 @@ function shuffleArray(array) {
 }
 
 async function listFolders() {
-    const response = await fetch('list_ply.xml');
+    const response = await fetch('list_ply_uco3d.xml');
     const xmlString = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-    
+
     const contentsElements = xmlDoc.getElementsByTagName('Key');
     const keys = [].slice.call(contentsElements).map(el => el.textContent);
-    
+
     const folders = keys.map(key => {
         const parts = key.split("/");
         return parts[0] + "/" + parts[1];
     });
-    
+
     return [...new Set(folders)];
 }
 
@@ -30,7 +30,9 @@ export function createSplatView(splatParent) {
     const canvas = parentDiv.querySelector("canvas");
     const progressDialog = parentDiv.querySelector("#progress-dialog");
     const progressIndicator = progressDialog.querySelector("#progress-indicator");
+    const captionDiv = document.getElementById("scene-caption");
     const view = new Object();
+    view.captionDiv = captionDiv;
     view.canvas = canvas;
     view.progressDialog = progressDialog;
     view.progressIndicator = progressIndicator;
@@ -40,63 +42,51 @@ export function createSplatView(splatParent) {
     return view;
 }
 
-export async function setSplatScene(name, view) {
+export async function setSplatScene(name, caption, view) {
     view.loading = true;
     view.lastClick = new Date();
 
-    const startRadius = 20.0;
+    const startRadius = 17.0;
 
-    //const cameraData = new SPLAT.CameraData();
-    //cameraData.fx = 0.9 * startRadius * view.canvas.offsetWidth
-    //cameraData.fy = 0.9 * startRadius * view.canvas.offsetHeight
+    const cameraData = new SPLAT.CameraData();
+    const camera = new SPLAT.Camera(cameraData);
 
-    //const camera = new SPLAT.Camera(cameraData);
-    const camera = new SPLAT.Camera();
-    // Flip the camera's up vector to invert the view
-    // camera.up.set(0, -1, 0);
-    
     const renderer = new SPLAT.WebGLRenderer(view.canvas);
     const scene = new SPLAT.Scene();
 
     view.progressDialog.show();
     view.progressIndicator.value = 0.0;
 
+    // set the caption
+    const response = await fetch(caption);
+    const caption_string = await response.text();
+    view.captionDiv.textContent = '\"' + caption_string + '\"';
+
     await SPLAT.Loader.LoadAsync(name, scene, (progress) => (view.progressIndicator.value = progress * 100));
 
-    console.log('Scene object:', scene);
-    console.log('Scene transform:', scene.transform);
     if (scene.transform) {
-        console.log('Scene transform matrix:', scene.transform.matrix);
-        // 
         scene.transform.scale = new Float32Array([1, -1, 1]);
     }
 
     view.progressDialog.close();
-    // var controls = new OrbitControls(camera, view.canvas, 0.0, -Math.PI / 4, startRadius, false);
-    // 
     var controls = new OrbitControls(
-        camera, 
-        view.canvas, 
-        0.0,  // 恢复原始水平角度
-        Math.PI / 4,  // 恢复原始垂直角度
+        camera,
+        view.canvas,
+        Math.PI / 4,  // azimuth
+        Math.PI / 4,  // elevation
         startRadius,
         false
     );
-    // 通过设置初始角度为Math.PI（180度）来实现翻转
-    // Set the camera's position
-    // camera.position.set(0, -startRadius, 0);
-    // camera.lookAt(0, 0, 0);
 
-    //controls.minAngle = -Math.PI / 3;
-    //controls.maxAngle = Math.PI / 3; 
-    //controls.minZoom = 0.1;
-    //controls.maxZoom = 3.0;
-    controls.zoomSpeed = 0.03;
-    controls.panSpeed = 0.2;
+    controls.minAngle = 20
+    controls.maxAngle = 90
+    controls.minZoom = startRadius-3;
+    controls.maxZoom = startRadius+3;
+
+    controls.zoomSpeed = 0.5;
+    controls.panSpeed = 0.4;
     controls.orbitSpeed = 1.75;
     controls.maxPanDistance = 0.05;
-
-
 
     const newAnimation = view.runningAnimation == null;
 
@@ -108,7 +98,7 @@ export async function setSplatScene(name, view) {
         view.canvas.addEventListener("mouseup", function () {
             view.lastClick = new Date();
             view.interacting = false;
-        }); 
+        });
     }
 
     // Render loop
@@ -127,7 +117,7 @@ export async function setSplatScene(name, view) {
 
         if (!view.interacting) {
             const timeToSpin = 0.5;
-            const accelTime = 4.0; 
+            const accelTime = 4.0;
             const maxSpinSpeed = 0.2;
 
             const timeSinceClick = view.lastClick == undefined ? undefined : (new Date() - view.lastClick) / 1000.0;
@@ -162,7 +152,7 @@ export async function setupCarousel(view, carousel) {
 
     async function onClickSplatThumb(splatName) {
         if (view.loading) {
-            return; 
+            return;
         }
         const elem = elements[splatName];
         if (elem.classList.contains("active")) {
@@ -175,7 +165,7 @@ export async function setupCarousel(view, carousel) {
 
         elem.classList.add("loading");
 
-        await setSplatScene(splatName + "/splat.splat", view)
+        await setSplatScene(splatName + "/splat.splat", splatName + "/caption.caption", view)
 
         Object.values(elements).forEach(e => {
             e.classList.remove("active");
@@ -232,14 +222,14 @@ export async function setupCarousel(view, carousel) {
                 card.style.transform = `translateZ(15px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
 
                 isAnimating = false;
-                if (latestEvent !== e) { // Check for new event 
+                if (latestEvent !== e) { // Check for new event
                     requestAnimationFrame(updateCardTransform);
                 }
             }
 
             card.addEventListener('mouseleave', () => {
                 latestEvent = null; // Clear event to stop animation
-                card.style.transform = ''; // Reset on leave 
+                card.style.transform = ''; // Reset on leave
             });
             prototype.parentNode.appendChild(card);
         }
@@ -250,20 +240,20 @@ export async function setupCarousel(view, carousel) {
     prototype.remove();
 
     const itemsParent = carousel.getElementsByClassName("splat-carousel-items")[0];
-    const items = [...itemsParent.getElementsByClassName('splat-carousel-item')]; 
+    const items = [...itemsParent.getElementsByClassName('splat-carousel-item')];
     let currentIndex = 0;
 
     function scrollToTarget() {
         items[currentIndex].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
 
-    carousel.querySelector('.splat-carousel-button.left').addEventListener('mousedown', () => { 
+    carousel.querySelector('.splat-carousel-button.left').addEventListener('mousedown', () => {
         currentIndex = (currentIndex + items.length - 2) % items.length;
         scrollToTarget();
     });
 
     carousel.querySelector('.splat-carousel-button.right').addEventListener('mousedown', () => {
-        currentIndex = (currentIndex + 2) % items.length; 
+        currentIndex = (currentIndex + 2) % items.length;
         scrollToTarget();
     });
 
@@ -295,6 +285,6 @@ export async function setupCarousel(view, carousel) {
     itemsParent.addEventListener('mouseup', stopDragging, false);
     itemsParent.addEventListener('mouseleave', stopDragging, false);
 
-    // Activate the first thumbnail. 
+    // Activate the first thumbnail.
     onClickSplatThumb(files[0]);
 }

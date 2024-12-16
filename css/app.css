@@ -88,7 +88,8 @@ tr,
 p,
 a {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 15px
+  font-size: 15px;
+  text-align: justify;
 }
 
 h1,
@@ -98,7 +99,7 @@ h3,
 h5,
 h6 {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  text-align: left;
+  /* text-align: center; */
 }
 
 heading {
@@ -115,6 +116,31 @@ papertitle {
 name {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
+}
+
+.author-block {
+  font-size: 15px;
+  /* font-size: 50px; */
+  /* display: inline-block; */
+}
+
+.author-list {
+  justify-content: center;
+  max-width: 600px;
+  /* font-size: 15px; */
+  /* font-size: 50px; */
+  /* display: inline-block; */
+}
+
+.logo {
+  width: 50%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.container {
+  width: 80%;
+  max-width: 800px;
 }
 
 .one {
@@ -282,7 +308,8 @@ input:checked+.slider:after {
 }
 
 .splat-carousel {
-  width: calc(100%);
+  /* width: calc(100%-100px); */
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
 }

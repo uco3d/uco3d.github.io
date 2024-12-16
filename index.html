@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Interactive Gaussian Splat 3D Viewer</title>
+    <title>UnCommon Objects in 3D</title>
+<!--
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="css/app.css"> -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -17,58 +27,159 @@
 
 <body style="padding: 5%;">
     <div class="container text-center">
-        <h2>Interactive Gaussian Splat 3D Viewer</h2>
 
-        <p>
-            Gaussian Splats are an efficient representation for rendering complex 3D scenes.
-            Each splat is an oriented 3D ellipsoid defined by a Gaussian distribution.
-            Splats are blended together to approximate the surface and appearance of 3D objects.
-            This allows realistic rendering of intricate shapes with fine details.
-        </p>
+        <div class="row">
+            <h1 class="text-center">
+                UnCommon Objects in 3D
+            </h1>
+        </div>
 
-        <div class="row col-md-8 offset-md-2">
-            <div class="text-center" id="splat-picker">
-                <div id="progress-container">
-                    <dialog open id="progress-dialog">
-                        <label for="progress-indicator">Loading model...</label>
-                        <progress max="100" id="progress-indicator"></progress>
-                    </dialog>
-                    <!-- <dialog open id="scene-caption">
-                        <label for="scene-caption">Loading model...</label>
-                        <progress max="100" id="progress-indicator"></progress>
-                    </dialog> -->
-                </div>
+        <img src="https://github.com/facebookresearch/uco3d/blob/master/uco3d_logo.png" onerror="this.src='img/uco3d_logo.png';" class="logo">
 
-                <canvas id="splat-canvas" class="w-100 rounded"
-                        style="max-width:440px; aspect-ratio: 1; cursor: grab;"></canvas>
-
-                <div class="scene-caption" id="scene-caption">
-                    Scene caption
-                </div>
-            </div>
-
-            <div class="splat-carousel position-relative" id="splat-carousel" role="group">
-                <div class="splat-carousel-items">
-                    <div id="splat-carousel-prototype">
-                        <div class="splat-carousel-item">
-                            <img class="card-img" style="user-select:none;" src="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="splat-carousel-buttons">
-                    <button class="splat-carousel-button left">&#8249;</button>
-                    <button class="splat-carousel-button right">&#8250;</button>
-                </div>
+        <div class="row text-center" style="justify-content: center">
+            <div class="author-list">
+                    <span style="margin: 5px"><a style="font-size: 17px" href="" target="_blank">Xingchen Liu</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://www.linkedin.com/in/piyush-tayal/?originalSubdomain=ca" target="_blank">Piyush Tayal</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://jytime.github.io/" target="_blank">Jianyuan Wang</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://www.linkedin.com/in/jesus-zarzar/" target="_blank">Jesus Zarzar</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://www.tmonnier.com/" target="_blank">Tom Monnier</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://ktertikas.github.io/" target="_blank">Konstantinos Tertikas</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://davidsonic.github.io/index/" target="_blank">Jiali Duan</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://www.antoinetlc.com/" target="_blank">Antoine Toisoul</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://jasonyzhang.com/" target="_blank">Jason Y. Zhang</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://uk.linkedin.com/in/natalia-neverova-14066133" target="_blank">Natalia Neverova</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://www.robots.ox.ac.uk/~vedaldi/" target="_blank">Andrea Vedaldi</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://www.shapovalov.ro/" target="_blank">Roman Shapovalov</a>,</span>
+                    <span style="margin: 5px"><a style="font-size: 17px" href="https://d-novotny.github.io/" target="_blank">David Novotny</a></span>
             </div>
         </div>
 
-        <p>
-            The advantage of Gaussian Splats is that they enable real-time rendering of complex 3D scenes
-            with a compact representation. Realistic shapes and appearances can be achieved with a relatively
-            small number of splats compared to triangle meshes or voxel grids. This efficiency makes
-            Gaussian Splats well-suited for interactive 3D viewing in web browsers and on mobile devices.
-        </p>
+        <div class="text-center" style="font-size: calc(min(3vw, 20px)); padding-top: 5px; padding-bottom: 15px">
+            Meta AI Research
+        </div>
+
+        <div class="text-center">
+            <span class="link-block" style="padding-top: 15px; padding-bottom: 10px">
+                <a href="https://arxiv.org/abs/2405.10314" class="external-link button is-normal is-rounded is-dark" style="font-size: 15px;  margin: 5px">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                </a>
+                <a href="https://github.com/facebookresearch/uco3d" class="external-link button is-normal is-rounded is-dark"  style="font-size: 15px; margin: 4px">
+                    <span class="icon">
+                        <i class="fa-git"></i>
+                    </span>
+                    <span>Code & Data</span>
+                </a>
+            </span>
+        </div>
+
+        <div class="row" style="padding-top: 25px; padding-bottom: 15px">
+            <h4 class="text-center">
+                Abstract
+            </h4>
+
+            <p>
+                We introduce Uncommon Objects in 3D, a new object-centric dataset for 3D deep learning and 3D generative AI.
+                uCO3D is the largest publicly-available collection of  high-resolution videos
+                of objects with 3D annotations that ensures full-360 degree coverage.
+                uCO3D is significantly more diverse than MVImgNet and CO3Dv2, covering more than 1,000 object categories.
+                It is also of higher quality, due to extensive quality checks of both the collected videos and the 3D annotations.
+                Similar to analogous datasets, uCO3D contains annotations for 3D camera poses, depth maps and sparse point clouds.
+                In addition, each object is equipped with a caption and a 3D Gaussian Splat reconstruction.
+                We train several large 3D models on MVImgNet, CO3Dv2, and uCO3D
+                and obtain superior results using the latter, showing that uCO3D is better for learning applications.
+            </p>
+
+        </div>
+
+        <div class="row">
+            <h2>
+                TODO: Video
+            </h2>
+        </div>
+
+        <div class="row">
+
+            <h2>uCO3D 3D Gaussian Splat Reconstructions</h2>
+
+            <p>
+                Each scene in uCO3D is reconstructed using 3D Gaussian Splatting.
+                Below we provide an interactive viewer of selected reconstructions.
+                Furthermore, a scene caption, generated by a VLM is present below each reconstruction.
+            </p>
+
+            <div class="row">
+                <div class="text-center" id="splat-picker">
+                    <div id="progress-container">
+                        <dialog open id="progress-dialog">
+                            <label for="progress-indicator">Loading model...</label>
+                            <progress max="100" id="progress-indicator"></progress>
+                        </dialog>
+                        <!-- <dialog open id="scene-caption">
+                            <label for="scene-caption">Loading model...</label>
+                            <progress max="100" id="progress-indicator"></progress>
+                        </dialog> -->
+                    </div>
+
+                    <canvas id="splat-canvas" class="w-100 rounded"
+                            style="max-width:440px; aspect-ratio: 1; cursor: grab;"></canvas>
+
+                    <div class="scene-caption" id="scene-caption">
+                        Scene caption
+                    </div>
+                </div>
+
+                <div class="splat-carousel position-relative" id="splat-carousel" role="group">
+                    <div class="splat-carousel-items">
+                        <div id="splat-carousel-prototype">
+                            <div class="splat-carousel-item">
+                                <img class="card-img" style="user-select:none;" src="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="splat-carousel-buttons">
+                        <button class="splat-carousel-button left">&#8249;</button>
+                        <button class="splat-carousel-button right">&#8250;</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <h2>uCO3D SfM Reconstructions</h2>
+
+            TODO: SfM video
+        </div>
+
+        <div class="row">
+            <h2>Application to Text-to-3D </h2>
+
+            TODO: Kostas' video
+
+        </div>
+
+        <div class="row">
+            <h2>Application to Multi-view diffusion </h2>
+
+            TODO: CAT3D results
+        </div>
+
+        <div class="row">
+            <h2>Application to Few-view Reconstruction </h2>
+
+            TODO: LRM results
+        </div>
+
+        <div class="row">
+            <h2>Reference</h2>
+
+            TODO: BibTex
+        </div>
+
 
     </div>
 </body>

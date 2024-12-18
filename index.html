@@ -34,7 +34,7 @@
             </h1>
         </div>
 
-        <img src="https://github.com/facebookresearch/uco3d/blob/master/uco3d_logo.png" onerror="this.src='img/uco3d_logo.png';" class="logo">
+        <img src="https://www.github.com/facebookresearch/uco3d/blob/master/uco3d_logo.png" onerror="this.src='img/uco3d_logo.png';" class="logo">
 
         <div class="row text-center" style="justify-content: center">
             <div class="author-list">
@@ -66,7 +66,7 @@
                     </span>
                     <span>Paper</span>
                 </a>
-                <a href="https://github.com/facebookresearch/uco3d" class="external-link button is-normal is-rounded is-dark"  style="font-size: 15px; margin: 4px">
+                <a href="https://www.github.com/facebookresearch/uco3d" class="external-link button is-normal is-rounded is-dark"  style="font-size: 15px; margin: 4px">
                     <span class="icon">
                         <i class="fa-git"></i>
                     </span>
@@ -75,7 +75,7 @@
             </span>
         </div>
 
-        <div class="row" style="padding-top: 25px; padding-bottom: 15px">
+        <div class="row" style="padding-top: 45px; padding-bottom: 15px">
             <h4 class="text-center">
                 Abstract
             </h4>
@@ -94,13 +94,27 @@
 
         </div>
 
-        <div class="row">
-            <h2>
-                TODO: Video
-            </h2>
+        </span>
+        <div class="row" style="padding-top: 0px; padding-bottom: 0px">
+            <span class="link-block" style="padding-top: 0px; padding-bottom: 25px">
+                <a href="https://github.com/facebookresearch/uco3d" class="external-link button is-normal is-rounded is-dark"  style="font-size: 15px; margin: 4px">
+                    <span class="icon">
+                        <i class="fa-git"></i>
+                    </span>
+                    <span>Download dataset</span>
+                </a>
+            </span>
         </div>
 
         <div class="row">
+            <div class="text-center">
+                <div style="padding-top: 1px; padding-bottom: 1px">
+                    <video width="750" height="375" autoplay loop controls preload="auto" muted><source src="img/grid_video.mp4" type="video/mp4"></video>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 45px; padding-bottom: 15px">
 
             <h2>uCO3D 3D Gaussian Splat Reconstructions</h2>
 
@@ -150,18 +164,51 @@
         </div>
 
         <div class="row">
-            <h2>uCO3D SfM Reconstructions</h2>
-
-            TODO: SfM video
+            <div class="text-center" style="padding-top: 45px; padding-bottom: 15px">
+                <h2>uCO3D SfM Reconstructions</h2>
+                <p>
+                Each scene is also reconstructed with <a href="https://github.com/facebookresearch/vggsfm">VGGSfM</a> yielding a sparse point cloud with per-frame camera annotations, and a dense point cloud.
+                </p>
+                Collected videos
+                <div style="padding-top: 5px; padding-bottom: 5px">
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/orig/1-34403-89911.mp4.down.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/orig/1-41035-27122.mp4.down.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/orig/1-86215-98872.mp4.down.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/orig/10242-32989-14201.mp4.down.mp4" type="video/mp4"></video>
+                </div>
+                Sparse point clouds & cameras
+                <div style="padding-top: 5px; padding-bottom: 5px">
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/sparse/1-34403-89911_d15_h20.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/sparse/1-41035-27122_d15_h20.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/sparse/1-86215-98872_d15_h20.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/sparse/10242-32989-14201_d15_h20.mp4" type="video/mp4"></video>
+                </div>
+                Dense reconstructions
+                <div style="padding-top: 5px; padding-bottom: 5px">
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/semidense/1-34403-89911_d10_h5.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/semidense/1-41035-27122_d10_h5.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/semidense/1-86215-98872_d10_h5.mp4" type="video/mp4"></video>
+                <video width="180" height="180" autoplay loop controls preload="auto" muted><source src="img/videos_pcl/semidense/10242-32989-14201_d10_h5.mp4" type="video/mp4"></video>
+                </div>
+            </div>
         </div>
 
-        <div class="row">
-            <h2>Application to Text-to-3D </h2>
+        <!-- find . -name "*.mp4" | xargs  -I {} ffmpeg -i {} -crf 18 -c:v libx264 -y -vf scale=502:-1 {}.down.mp4 -->
 
-            TODO: Kostas' video
+        <div class="row" style="padding-top: 45px; padding-bottom: 15px">
+            <h2>Application to Text-to-3D</h2>
+            <p>
+            uCO3D can be used to train text-to-3D GenAI models.
+            Below, we show samples from the first Instant3D-like model trained on real-life data.
+            </p>
+
+            <div style="padding-top: 5px; padding-bottom: 5px">
+            <video width="800" height="400" autoplay loop controls preload="auto" muted><source src="img/text_to_3d.mp4" type="video/mp4"></video>
+            </div>
 
         </div>
 
+        <!--
         <div class="row">
             <h2>Application to Multi-view diffusion </h2>
 
@@ -173,11 +220,25 @@
 
             TODO: LRM results
         </div>
+        -->
 
-        <div class="row">
+        <div class="row" style="padding-top: 45px; padding-bottom: 15px">
             <h2>Reference</h2>
 
-            TODO: BibTex
+            <p>
+            <pre style="text-align: left;">
+            @inproceedings{liu24uco3d,
+                Author = {Liu, Xingchen and Tayal, Piyush and Wang, Jianyuan
+                          and Zarzar, Jesus and Monnier, Tom and Tertikas, Konstantinos
+                          and Duan, Jiali and Toisoul, Antoine and Zhang, Jason Y.
+                          and Neverova, Natalia and Vedaldi, Andrea
+                          and Shapovalov, Roman and Novotny, David},
+                Booktitle = {arXiv},
+                Title = {UnCommon Objects in 3D},
+                Year = {2024},
+            }
+            </pre>
+            </p>
         </div>
 
 

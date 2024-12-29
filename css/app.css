@@ -528,3 +528,26 @@ input:checked+.slider:after {
   margin-left: calc(-.5em - 1px);
   margin-right: .25em;
 }
+
+
+.t23d-caption {
+  all: unset;
+  /* height: 40px; */
+  width: 180px;
+  font-size: 14px;
+  margin: 0px;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  font-family: monospace;
+  display: inline-block;
+  align-items: center;
+  vertical-align: top;
+}
+
+.reset-styles {
+  all: unset;
+}
+
+.no-styles {
+   /* No styles defined */
+}
